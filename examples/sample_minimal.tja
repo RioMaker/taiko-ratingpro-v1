@@ -1,0 +1,11 @@
+// 示例谱面：极短谱面（边界测试用）
+TITLE:Minimal Chart
+BPM:120
+OFFSET:0
+
+COURSE:Oni
+LEVEL:1
+
+#START
+12,
+#END
