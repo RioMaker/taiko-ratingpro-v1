@@ -4,6 +4,8 @@
 
 Taiko Rating Pro 是一个面向太鼓达人（太鼓の達人）谱面的多维难度评定系统。不同于传统的单一分数评估，本系统从 **七个基础维度** 同时分析谱面，并输出三种不同视角的目标难度：
 
+本项目采用 **Agent 驱动实现方式**：核心功能、WebUI、部署模板与文档由 Agent 按阶段落地与迭代。
+
 - **过关难度** — 能否通关的整体压力
 - **全连难度** — 全连（Full Combo）的操作难度
 - **高精度难度** — 追求高良率的精确控制难度
@@ -90,6 +92,53 @@ cd webui && npm run dev
 # 浏览器访问 http://localhost:3000（自动代理 API 到 5000 端口）
 ```
 
+### Ubuntu 云服务器部署（推荐）
+
+项目已提供生产部署模板：`gunicorn + systemd + nginx`。
+
+```bash
+# 1) 将项目放到服务器目录（示例）
+sudo mkdir -p /opt/taiko-ratingpro
+sudo chown -R $USER:$USER /opt/taiko-ratingpro
+cd /opt/taiko-ratingpro
+
+# 2) 拷贝代码后执行一键部署脚本
+chmod +x deploy/ubuntu/deploy.sh
+APP_DIR=/opt/taiko-ratingpro APP_USER=$USER ./deploy/ubuntu/deploy.sh
+
+# 3) 查看服务状态
+systemctl status taiko-rating
+systemctl status nginx
+```
+
+部署文件位置：
+
+- `deploy/ubuntu/gunicorn.conf.py`
+- `deploy/ubuntu/taiko-rating.service`
+- `deploy/ubuntu/nginx-taiko-rating.conf`
+- `deploy/ubuntu/nginx-api-allowlist.conf`
+- `deploy/ubuntu/deploy.sh`
+
+默认对外端口为 `80`，浏览器直接访问 `http://你的服务器IP/`。
+
+#### 按接口开放后端 API
+
+Nginx 默认会拒绝未列入白名单的 `/api/*` 请求。你可以通过下面文件精确开放接口：
+
+- `/etc/nginx/snippets/taiko-rating-api-allowlist.conf`
+
+例如：
+
+- 默认已开放：`/api/health`
+- 需要开放评定接口时，编辑该文件并取消注释：`/api/rate`、`/api/rate/text`
+
+修改后执行：
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
 ### 运行测试
 
 ```bash
@@ -120,6 +169,10 @@ webui/               # Vue 3 + Vite 前端
 └── vite.config.js
 
 start.py             # 一键启动脚本（自动检查依赖 + 构建前端 + 启动服务）
+
+deploy/ubuntu/       # Ubuntu 生产部署模板（gunicorn + systemd + nginx）
+
+docs/agent/          # Agent 专用文档（上下文、约束、执行规范）
 ```
 
 ## 计算流程
@@ -188,6 +241,10 @@ TJA 文件 → 解析器 → 标准化谱面数据
 | overview | 概览摘要 |
 
 详细维度定义请参见 [docs/dimensions.md](docs/dimensions.md)。
+
+## Agent 文档
+
+面向 Agent 的专用文档位于 [docs/agent/README.md](docs/agent/README.md)，用于约束执行边界、关键入口与部署约定。
 
 ## 如何扩展新维度
 

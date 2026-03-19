@@ -50,7 +50,16 @@ explanation ← 所有层输出
 engine ← 编排所有层
   ↓
 cli ← engine
+api (Flask) ← engine
+  ↑
+webui (Vue) ← 调用 /api/*
 ```
+
+## 运行入口
+
+- `taiko_rating/cli.py`：命令行入口（`taiko-rating`）
+- `taiko_rating/api.py`：Web API 入口（`python -m taiko_rating.api`）
+- `start.py`：根目录一键启动入口（自动检查 Flask、构建前端并启动 API）
 
 ## 关键设计决策
 
