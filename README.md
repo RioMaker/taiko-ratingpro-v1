@@ -64,6 +64,9 @@ for cr in result.chart_results:
 ### Web 界面
 
 ```bash
+# 一键启动（推荐）
+python start.py
+
 # 1. 安装后端依赖
 pip install flask
 
@@ -115,6 +118,8 @@ webui/               # Vue 3 + Vite 前端
 │   └── components/  # FileUpload / RatingResult / DimensionChart / ...
 ├── package.json
 └── vite.config.js
+
+start.py             # 一键启动脚本（自动检查依赖 + 构建前端 + 启动服务）
 ```
 
 ## 计算流程
@@ -195,7 +200,7 @@ TJA 文件 → 解析器 → 标准化谱面数据
 3. 读谱复杂度使用代理特征，未建模真实视觉认知过程
 4. 标准化参数为固定值，尚未支持外部标定文件
 5. 仅支持 TJA 输入，JSON 输入格式待实现
-6. 不含 Web 界面（可扩展） → ✅ 已实现基础 WebUI
+6. 当前 WebUI 为基础版本（文件上传 / 文本粘贴 / 结果可视化），高级交互能力仍可继续扩展
 
 ## 未来改进方向
 
