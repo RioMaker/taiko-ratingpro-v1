@@ -92,7 +92,40 @@ cd webui && npm run dev
 # 浏览器访问 http://localhost:3000（自动代理 API 到 5000 端口）
 ```
 
-### Ubuntu 云服务器部署（推荐）
+### Docker 部署
+
+```bash
+# 使用 docker compose 一键构建并启动
+docker compose up -d
+
+# 浏览器访问 http://localhost:5000
+
+# 查看日志
+docker compose logs -f
+
+# 停止服务
+docker compose down
+```
+
+也可以直接使用 Docker 命令：
+
+```bash
+# 构建镜像
+docker build -t taiko-ratingpro .
+
+# 运行容器
+docker run -d -p 5000:5000 --name taiko-rating taiko-ratingpro
+```
+
+自定义 worker 数量或端口：
+
+```bash
+docker run -d -p 8080:5000 \
+  -e GUNICORN_CMD_ARGS="--bind=0.0.0.0:5000 --workers=4 --timeout=120" \
+  taiko-ratingpro
+```
+
+### Ubuntu 云服务器部署
 
 项目已提供生产部署模板：`gunicorn + systemd + nginx`。
 
@@ -169,6 +202,9 @@ webui/               # Vue 3 + Vite 前端
 └── vite.config.js
 
 start.py             # 一键启动脚本（自动检查依赖 + 构建前端 + 启动服务）
+
+Dockerfile           # 多阶段 Docker 构建（前端构建 + Python 运行时）
+docker-compose.yml   # Docker Compose 一键启动
 
 deploy/ubuntu/       # Ubuntu 生产部署模板（gunicorn + systemd + nginx）
 

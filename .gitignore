@@ -36,3 +36,5 @@ webui/dist/
 # Output
 results.json
 *.log
+
+*.tar

@@ -28,4 +28,5 @@
 - 算法逻辑变化：`src/taiko_rating/dimensions/` + `aggregation/`
 - 返回字段变化：`models/result.py` + `engine.py` + `api.py` + `webui/`
 - Web 交互变化：`webui/src/components/`
-- 生产部署变化：`deploy/ubuntu/` + `README.md`
+- Docker 部署变化：`Dockerfile` + `docker-compose.yml` + `.dockerignore` + `README.md`
+- Ubuntu 部署变化：`deploy/ubuntu/` + `README.md`

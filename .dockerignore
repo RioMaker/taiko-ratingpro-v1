@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+
+# Python artifacts
+__pycache__
+*.py[cod]
+*.egg-info
+*.egg
+.eggs
+build
+dist
+*.whl
+
+# Virtual environments
+.venv
+venv
+env
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Testing / Coverage
+.pytest_cache
+.coverage
+htmlcov
+
+# Node (only needed during build stage)
+webui/node_modules
+webui/dist
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Output
+results.json
+*.log
+
+# Docs (not needed at runtime)
+docs
+*.md
+!requirements.txt
